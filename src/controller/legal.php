@@ -45,9 +45,6 @@ class Legal extends Controller
 
             $this->data['success'] = true;
             $this->data['message'] = 'Feedback submitted successfully';
-        } else {
-            $this->data['error'] = true;
-            $this->data['message'] = 'Feedback submission failed';
         }
 
         $this->data['pageTitle'] = 'Contact';

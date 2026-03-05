@@ -3,6 +3,7 @@
 class Model
 {
     protected $db = null;
+
     protected $fields = [];
     protected $table = '';
 
