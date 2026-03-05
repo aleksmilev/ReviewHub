@@ -45,9 +45,9 @@
                 <div class="user-actions">
                     <?php if (isset($user) && $user): ?>
                         <div class="user-menu">
-                            <div class="user-avatar" title="<?php echo htmlspecialchars($user['username']); ?>">
+                            <a href="/user/profile" class="user-avatar" title="<?php echo htmlspecialchars($user['username']); ?>">
                                 <?php echo strtoupper(substr($user['username'], 0, 1)); ?>
-                            </div>
+                            </a>
                         </div>
                         <?php if (isset($user['role']) && $user['role'] == 'admin'): ?>
                             <a href="/admin" class="btn btn-outline">

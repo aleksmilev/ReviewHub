@@ -153,11 +153,13 @@
     font-weight: 600;
     cursor: pointer;
     border: 2px solid #e5e7eb;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
+    text-decoration: none;
 }
 
 .user-avatar:hover {
     border-color: #3b82f6;
+    transform: scale(1.05);
 }
 
 .mobile-menu-toggle {

@@ -10,15 +10,7 @@
                     </p>
                 </div>
                 
-                <div class="footer-section">
-                    <h4>Navigation</h4>
-                    <ul class="footer-links">
-                        <li><a href="/home" class="footer-link">Home</a></li>
-                        <li><a href="/company" class="footer-link">Companies</a></li>
-                        <li><a href="/review" class="footer-link">Reviews</a></li>
-                        <li><a href="/tag" class="footer-link">Tags</a></li>
-                    </ul>
-                </div>
+                <br class="footer-separator"/>
                 
                 <div class="footer-section">
                     <h4>Account</h4>

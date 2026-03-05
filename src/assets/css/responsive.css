@@ -66,6 +66,28 @@
         align-items: flex-start;
     }
     
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+    }
+    
+    .profile-header-info {
+        width: 100%;
+    }
+    
+    .profile-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .profile-card {
+        padding: 1.5rem;
+    }
+    
     .profile-actions {
         flex-direction: column;
     }
@@ -73,6 +95,7 @@
     .profile-actions .btn {
         margin-left: 0 !important;
         width: 100%;
+        justify-content: center;
     }
     
     .companies-grid {

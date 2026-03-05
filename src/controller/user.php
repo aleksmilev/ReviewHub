@@ -195,7 +195,12 @@ class User extends Controller
             }
         }
         
+        $this->loadModel('ReviewModel');
+        $userReviews = $this->model->ReviewModel->getByUser($user['id']);
+        $reviewCount = count($userReviews);
+        
         $this->data['user'] = $user;
+        $this->data['reviewCount'] = $reviewCount;
         $this->data['pageTitle'] = 'My Profile';
         $this->loadView('user/profile');
     }
