@@ -2,6 +2,8 @@
 
 class Layout
 {
+    private $viewData = [];
+
     public function __construct($viewPath, $data = [])
     {
         $this->applyData($data);
@@ -13,16 +15,21 @@ class Layout
 
     private function loadHeader()
     {
+        extract($this->viewData);
         $this->loadView('layout/header');
     }
 
     private function loadFooter()
     {
+        extract($this->viewData);
         $this->loadView('layout/footer');
     }
 
     private function loadView($viewPath)
     {
+        // Extract data variables for the view
+        extract($this->viewData);
+        
         $contentPath = __DIR__ . '/../view/' . $viewPath . '.php';
         if (file_exists($contentPath)) {
             require $contentPath;
@@ -31,9 +38,7 @@ class Layout
 
     private function applyData($data = [])
     {
-        foreach ($data as $key => $value) {
-            $$key = $value;
-        }
+        $this->viewData = $data;
     }
 
     private function loadLayout($viewPath, $data = [])

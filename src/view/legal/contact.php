@@ -1,4 +1,15 @@
 <div class="container">
+    <?php if (isset($success) && $success): ?>
+    <div class="success-popup" id="successPopup">
+        <div class="success-popup-content">
+            <div class="success-icon">✓</div>
+            <h3>Message Sent Successfully!</h3>
+            <p><?php echo isset($message) ? htmlspecialchars($message) : 'Thank you for contacting us. We will get back to you soon.'; ?></p>
+            <button class="success-close" onclick="closeSuccessPopup()">Close</button>
+        </div>
+    </div>
+    <?php endif; ?>
+    
     <div class="legal-page">
         <h1>Contact Us</h1>
         <p class="intro-text">We'd love to hear from you! Whether you have a question, feedback, or need support, feel free to reach out to us.</p>
@@ -6,7 +17,7 @@
         <div class="contact-grid">
             <div class="contact-section">
                 <h2>Get in Touch</h2>
-                <form class="contact-form" method="POST" action="/legal/contact/submit">
+                <form class="contact-form" method="POST" action="/legal/contact">
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" id="name" name="name" required>
@@ -20,7 +31,7 @@
                     <div class="form-group">
                         <label for="subject">Subject</label>
                         <select id="subject" name="subject" required>
-                            <option value="">Select a subject</option>
+                            <option selected disabled hidden>Select a subject</option>
                             <option value="general">General Inquiry</option>
                             <option value="support">Support Request</option>
                             <option value="feedback">Feedback</option>
@@ -59,3 +70,32 @@
     </div>
 </div>
 
+<script>
+function closeSuccessPopup() {
+    const popup = document.getElementById('successPopup');
+    if (popup) {
+        popup.style.opacity = '0';
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 300);
+    }
+}
+
+<?php if (isset($success) && $success): ?>
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+    contactForm.reset();
+}
+
+setTimeout(() => {
+    closeSuccessPopup();
+}, 5000);
+<?php endif; ?>
+
+document.addEventListener('click', function(event) {
+    const popup = document.getElementById('successPopup');
+    if (popup && event.target === popup) {
+        closeSuccessPopup();
+    }
+});
+</script>

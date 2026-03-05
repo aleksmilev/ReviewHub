@@ -68,3 +68,15 @@ INSERT INTO company_tags (company_id, tag_id) VALUES
 (6, 1),
 (7, 7),
 (8, 8);
+
+INSERT INTO feedback (name, email, subject, message) VALUES
+('Sarah Johnson', 'sarah.johnson@email.com', 'General Inquiry', 'I love your review platform! It has been incredibly helpful in finding reliable companies. Keep up the great work!'),
+('Michael Chen', 'mchen@example.com', 'Support Request', 'I am having trouble updating my review. The edit button does not seem to be working. Could you please help?'),
+('Emily Rodriguez', 'emily.r@email.com', 'Feedback', 'The website is great, but I would love to see a feature where I can filter reviews by date. This would help me see the most recent feedback.'),
+('David Thompson', 'dthompson@example.com', 'Report an Issue', 'I noticed a review that contains inappropriate content. Please review and remove it if necessary.'),
+('Lisa Anderson', 'lisa.anderson@email.com', 'General Inquiry', 'How do I become a verified reviewer? I have been using the platform for a while and would like to get verified status.'),
+('Robert Williams', 'rwilliams@email.com', 'Feedback', 'The search functionality works well, but it would be better if it could also search within review content, not just company names.'),
+('Jennifer Martinez', 'j.martinez@example.com', 'Support Request', 'I forgot my password and the reset link is not working. Can you help me regain access to my account?'),
+('James Brown', 'james.brown@email.com', 'General Inquiry', 'Do you have an API available for developers? I would like to integrate your review data into my application.'),
+('Amanda Davis', 'amanda.d@example.com', 'Feedback', 'The mobile version of the site is excellent! Very user-friendly and responsive. Great job on the design.'),
+('Christopher Wilson', 'cwilson@email.com', 'Report an Issue', 'I believe there is a duplicate company listing. "TechCorp Solutions" appears twice with slightly different names. Please merge them.');
