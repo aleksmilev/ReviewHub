@@ -18,9 +18,10 @@ class Controller
 
     protected function loadModel($model)
     {
-        $modelPath = __DIR__ . '/../model/' . strtolower($model) . '.php';
+        $modelFileName = preg_replace('/model$/i', '', $model);
+        $modelPath = __DIR__ . '/../model/' . strtolower($modelFileName) . '.php';
         if (!file_exists($modelPath)) {
-            throw new Exception('Model not found');
+            throw new Exception('Model not found: ' . $modelPath);
         }
 
         require_once($modelPath);
