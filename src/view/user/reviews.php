@@ -43,7 +43,7 @@
         
         <div style="margin-top: 2rem;">
             <a href="/user/profile" class="btn btn-outline">Back to Profile</a>
-            <a href="/company" class="btn btn-primary" style="margin-left: 1rem;">Browse Companies</a>
+            <a href="/review/company" class="btn btn-primary" style="margin-left: 1rem;">Browse Companies</a>
         </div>
     </div>
 </div>
