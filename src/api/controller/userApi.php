@@ -6,6 +6,7 @@ class UserApi extends ControllerApi
         'login' => ["POST"],
         'register' => ["POST"],
         'user' => ["GET"],
+        'changePassword' => ["POST"],
     ];
 
     public function login()
@@ -13,11 +14,7 @@ class UserApi extends ControllerApi
         $data = $this->getPostData();
 
         $requiredFields = ['username', 'password'];
-        foreach ($requiredFields as $field) {
-            if (empty($data[$field])) {
-                ResponceApi::handle400();
-            }
-        }
+        $this->validateFields($requiredFields, $data);
 
         $this->load->model('UserModel');
         $user = $this->model->UserModel->findByUsername($data['username']);
@@ -58,5 +55,47 @@ class UserApi extends ControllerApi
 
         unset($user['password_hash']);
         ResponceApi::returnData(['user' => $user]);
+    }
+
+    public function changePassword()
+    {
+        $token = ValidationApi::getToken();
+        if (empty($token)) {
+            ResponceApi::handle401();
+        }
+
+        $tokenData = ValidationApi::decryptToken($token);
+        if (!$tokenData || !isset($tokenData['id'])) {
+            ResponceApi::handle401();
+        }
+
+        $data = $this->getPostData();
+
+        $requiredFields = ['old_password', 'new_password'];
+        $this->validateFields($requiredFields, $data);
+
+        $this->load->model('UserModel');
+        $user = $this->model->UserModel->get($tokenData['id']);
+
+        if (!$user) {
+            ResponceApi::handle401();
+        }
+
+        if (!password_verify($data['old_password'], $user['password_hash'])) {
+            ResponceApi::returnData(['message' => 'Current password is incorrect'], 200);
+        }
+
+        if (strlen($data['new_password']) < 6) {
+            ResponceApi::returnData(['message' => 'New password must be at least 6 characters'], 200);
+        }
+
+        $newPasswordHash = password_hash($data['new_password'], PASSWORD_DEFAULT);
+
+        try {
+            $this->model->UserModel->update($user['id'], ['password_hash' => $newPasswordHash]);
+            ResponceApi::returnData(['message' => 'Password changed successfully']);
+        } catch (Exception $e) {
+            ResponceApi::handle400();
+        }
     }
 }
