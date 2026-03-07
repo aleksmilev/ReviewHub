@@ -113,24 +113,6 @@ class Form extends Component {
                 onSubmit={this.handleSubmit}
             >
                 {children}
-                
-                {loading && (
-                    <div className="form-loading">
-                        <span>{loadingText}</span>
-                    </div>
-                )}
-
-                {error && showErrorMessage && (
-                    <div className="form-error">
-                        {error}
-                    </div>
-                )}
-
-                {success && showSuccessMessage && (
-                    <div className="form-success">
-                        {successMessage}
-                    </div>
-                )}
             </form>
         )
     }

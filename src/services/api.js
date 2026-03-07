@@ -1,36 +1,32 @@
 class ApiConfig {
-    static baseUrl = 'http://localhost:8008/api/'
+    static baseUrl = 'http://localhost:8080/api/'
 
     static schematic = {
         'legal': {
-            'contact': [
+            'form': [
                 {
                     'method': 'POST',
                     'params': ['name', 'email', 'subject', 'message']
-                },
+                }
+            ],
+            'list': [
                 {
                     'method': 'GET',
                     'params': []
                 }
-            ],
+            ]
         },
         'user': {
             'login': [
                 {
                     'method': 'POST',
-                    'params': ['email', 'password'],
-                },
+                    'params': ['email', 'password']
+                }
             ],
             'register': [
                 {
                     'method': 'POST',
                     'params': ['username', 'email', 'password']
-                }
-            ],
-            'profile': [
-                {
-                    'method': 'GET',
-                    'params': ['token']
                 }
             ]
         }
