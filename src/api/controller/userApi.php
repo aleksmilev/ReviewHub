@@ -5,9 +5,10 @@ class UserApi extends ControllerApi
     public $requestRules = [
         'login' => ["POST"],
         'register' => ["POST"],
-        'user' => ["GET"],
         'changePassword' => ["POST"],
         'changeEmail' => ["POST"],
+        'user' => ["GET"],
+        'reviews' => ["GET"],
     ];
 
     public function login()
@@ -143,5 +144,23 @@ class UserApi extends ControllerApi
         } catch (Exception $e) {
             ResponceApi::handle400();
         }
+    }
+
+    public function reviews()
+    {
+        $token = ValidationApi::getToken();
+        if (empty($token)) {
+            ResponceApi::handle401();
+        }
+
+        $tokenData = ValidationApi::decryptToken($token);
+        if (!$tokenData || !isset($tokenData['id'])) {
+            ResponceApi::handle401();
+        }
+
+        $this->load->model('ReviewModel');
+        $reviews = $this->model->ReviewModel->getByUser($tokenData['id']);
+
+        ResponceApi::returnData(['reviews' => $reviews]);
     }
 }

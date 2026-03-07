@@ -8,7 +8,7 @@
                 <div class="empty-icon">📝</div>
                 <h2>No Reviews Yet</h2>
                 <p>You haven't submitted any reviews yet. Start reviewing companies to help others make informed decisions!</p>
-                <a href="/company" class="btn btn-primary">Browse Companies</a>
+                <a href="/review/company" class="btn btn-primary">Browse Companies</a>
             </div>
         <?php else: ?>
             <div class="reviews-list">
