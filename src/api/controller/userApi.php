@@ -7,6 +7,7 @@ class UserApi extends ControllerApi
         'register' => ["POST"],
         'user' => ["GET"],
         'changePassword' => ["POST"],
+        'changeEmail' => ["POST"],
     ];
 
     public function login()
@@ -94,6 +95,51 @@ class UserApi extends ControllerApi
         try {
             $this->model->UserModel->update($user['id'], ['password_hash' => $newPasswordHash]);
             ResponceApi::returnData(['message' => 'Password changed successfully']);
+        } catch (Exception $e) {
+            ResponceApi::handle400();
+        }
+    }
+
+    public function changeEmail()
+    {
+        $token = ValidationApi::getToken();
+        if (empty($token)) {
+            ResponceApi::handle401();
+        }
+
+        $tokenData = ValidationApi::decryptToken($token);
+        if (!$tokenData || !isset($tokenData['id'])) {
+            ResponceApi::handle401();
+        }
+
+        $data = $this->getPostData();
+
+        $requiredFields = ['email'];
+        $this->validateFields($requiredFields, $data);
+
+        $this->load->model('UserModel');
+        $user = $this->model->UserModel->get($tokenData['id']);
+
+        if (!$user) {
+            ResponceApi::handle401();
+        }
+
+        if ($data['email'] == $user['email']) {
+            ResponceApi::returnData(['message' => 'New email must be different from current email'], 200);
+        }
+
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            ResponceApi::returnData(['message' => 'Invalid email format'], 200);
+        }
+
+        $existingUser = $this->model->UserModel->findByEmail($data['email']);
+        if ($existingUser && $existingUser['id'] != $user['id']) {
+            ResponceApi::returnData(['message' => 'Email already in use'], 200);
+        }
+
+        try {
+            $this->model->UserModel->update($user['id'], ['email' => $data['email']]);
+            ResponceApi::returnData(['message' => 'Email changed successfully']);
         } catch (Exception $e) {
             ResponceApi::handle400();
         }

@@ -21,11 +21,7 @@ class LegalApi extends ControllerApi
         $data = $this->getPostData();
 
         $requiredFields = ['name', 'email', 'subject', 'message'];
-        foreach ($requiredFields as $field) {
-            if (empty($data[$field])) {
-                ResponceApi::handle400();
-            }
-        }
+        $this->validateFields($requiredFields, $data);
 
         if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
             ResponceApi::handle400();
