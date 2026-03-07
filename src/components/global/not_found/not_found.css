@@ -1,11 +1,23 @@
 .not-found-wrapper {
-    min-height: calc(100vh - 200px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background: radial-gradient(circle at top left, #1e3a8a, #020617);
     color: #e5e7eb;
     padding: 2rem;
+    z-index: 9999;
+}
+
+/* Hide header and footer when not-found component is present */
+.layout:has(.not-found-wrapper) .header,
+.layout:has(.not-found-wrapper) .footer {
+    display: none;
 }
 
 .not-found-content {
