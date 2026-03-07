@@ -22,7 +22,7 @@ class UserApi extends ControllerApi
         $user = $this->model->UserModel->findByUsername($data['username']);
 
         if (!$user || !password_verify($data['password'], $user['password_hash'])) {
-            ResponceApi::handle401();
+            ResponceApi::returnData(['message' => 'Invalid username or password'], 200);
         }
 
         $tokenData = [
