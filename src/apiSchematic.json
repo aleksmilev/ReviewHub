@@ -118,10 +118,34 @@
         "params": ["id"]
       }
     ],
+    "createCompany": [
+      {
+        "method": "POST",
+        "params": ["name"]
+      }
+    ],
+    "updateCompany": [
+      {
+        "method": "POST",
+        "params": ["id", "name"]
+      }
+    ],
     "deleteTag": [
       {
         "method": "POST",
         "params": ["id"]
+      }
+    ],
+    "createTag": [
+      {
+        "method": "POST",
+        "params": ["name"]
+      }
+    ],
+    "updateTag": [
+      {
+        "method": "POST",
+        "params": ["id", "name"]
       }
     ]
   }
