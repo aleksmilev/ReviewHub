@@ -9,6 +9,15 @@ class UserApi extends ControllerApi
         'changeEmail' => ["POST"],
         'user' => ["GET"],
         'reviews' => ["GET"],
+        'getAllUsers' => ["GET"],
+        'changeUserRole' => ["POST"],
+        'deleteUser' => ["POST"],
+    ];
+
+    public $adminMethods = [
+        'getAllUsers',
+        'changeUserRole',
+        'deleteUser',
     ];
 
     public function login()
@@ -169,5 +178,85 @@ class UserApi extends ControllerApi
         $reviews = $this->model->ReviewModel->getByUser($tokenData['id']);
 
         ResponceApi::returnData(['reviews' => $reviews]);
+    }
+
+    public function getAllUsers()
+    {
+        $this->load->model('UserModel');
+        $this->load->model('ReviewModel');
+        
+        $users = $this->model->UserModel->getAll([], 'created_at DESC');
+        
+        foreach ($users as &$user) {
+            $reviews = $this->model->ReviewModel->getByUser($user['id']);
+            $user['review_count'] = count($reviews);
+            unset($user['password_hash']);
+        }
+        
+        ResponceApi::returnData(['users' => $users]);
+    }
+
+    public function changeUserRole()
+    {
+        $data = $this->getPostData();
+        
+        $requiredFields = ['id', 'role'];
+        $this->validateFields($requiredFields, $data);
+        
+        $token = ValidationApi::getToken();
+        $tokenData = ValidationApi::decryptToken($token);
+        $currentUserId = $tokenData['id'] ?? null;
+        
+        if ($data['id'] == $currentUserId) {
+            ResponceApi::returnData(['error' => 'You cannot change your own role'], 400);
+        }
+        
+        if (!in_array($data['role'], ['user', 'admin'])) {
+            ResponceApi::returnData(['error' => 'Invalid role. Must be "user" or "admin"'], 400);
+        }
+        
+        $this->load->model('UserModel');
+        $user = $this->model->UserModel->get($data['id']);
+        
+        if (!$user) {
+            ResponceApi::returnData(['error' => 'User not found'], 404);
+        }
+        
+        try {
+            $this->model->UserModel->update($data['id'], ['role' => $data['role']]);
+            ResponceApi::returnData(['message' => 'User role updated successfully']);
+        } catch (Exception $e) {
+            ResponceApi::returnData(['error' => 'Failed to update user role'], 400);
+        }
+    }
+
+    public function deleteUser()
+    {
+        $data = $this->getPostData();
+        
+        $requiredFields = ['id'];
+        $this->validateFields($requiredFields, $data);
+        
+        $token = ValidationApi::getToken();
+        $tokenData = ValidationApi::decryptToken($token);
+        $currentUserId = $tokenData['id'] ?? null;
+        
+        if ($data['id'] == $currentUserId) {
+            ResponceApi::returnData(['error' => 'You cannot delete your own account'], 400);
+        }
+        
+        $this->load->model('UserModel');
+        $user = $this->model->UserModel->get($data['id']);
+        
+        if (!$user) {
+            ResponceApi::returnData(['error' => 'User not found'], 404);
+        }
+        
+        try {
+            $this->model->UserModel->delete($data['id']);
+            ResponceApi::returnData(['message' => 'User deleted successfully']);
+        } catch (Exception $e) {
+            ResponceApi::returnData(['error' => 'Failed to delete user'], 400);
+        }
     }
 }
