@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import { withRouter } from '../services/withRouter'
+import UserService from '../services/user'
 
 class ActiveComponent extends Component {
     constructor(props) {
@@ -83,6 +84,20 @@ class ActiveComponent extends Component {
         }
 
         const { directory, view } = parsed
+
+        if (directory === 'admin') {
+            if (!UserService.isAdmin()) {
+                if (this.props.navigate) {
+                    this.props.navigate('/user/login')
+                }
+                this.setState({
+                    Component: null,
+                    loading: false,
+                    error: null
+                })
+                return
+            }
+        }
 
         try {
             this.setState({ loading: true, error: null })
