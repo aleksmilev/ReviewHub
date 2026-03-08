@@ -403,3 +403,36 @@
     margin-bottom: 1rem;
 }
 
+.companies-reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.company-reviews-section {
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 2rem;
+}
+
+.company-reviews-section:last-child {
+    border-bottom: none;
+}
+
+.company-header {
+    margin-bottom: 1.5rem;
+}
+
+.company-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+}
+
+.rating-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
