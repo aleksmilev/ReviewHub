@@ -6,3 +6,5 @@ for i in $(docker ps -a -q); do
 done
 
 docker ps -a -q    
+
+rm -rf node_modules
