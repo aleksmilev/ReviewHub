@@ -21,6 +21,15 @@ A comprehensive PHP-based web application for reviewing companies, built with a 
 - **Tag Management**: Create and manage tags with custom colors
 - **Feedback Viewing**: View all contact form submissions
 
+### API Features
+- **RESTful API**: Complete API for all platform features
+- **Authentication**: Token-based authentication system
+- **Company Operations**: Browse, search, create, update, and delete companies
+- **Review Operations**: Create, read, and delete reviews
+- **Tag Management**: Full CRUD operations for tags
+- **User Management**: User operations including admin functions
+- **CORS Support**: Cross-origin requests supported for frontend integration
+
 ## Tech Stack
 
 - **Backend**: PHP 8.x
@@ -29,6 +38,7 @@ A comprehensive PHP-based web application for reviewing companies, built with a 
 - **Containerization**: Docker & Docker Compose
 - **Database Management**: Adminer (optional)
 - **Architecture**: Custom MVC pattern with Load class for dependency management
+- **API**: RESTful API with token-based authentication and CORS support
 
 ## Project Structure
 
@@ -50,6 +60,12 @@ php/
 │   │   │   └── responsive.css
 │   │   └── js/           # JavaScript files
 │   │       └── popup.js
+│   ├── api/             # API controllers and routing
+│   │   ├── controller/  # API controllers (ReviewApi, UserApi, LegalApi)
+│   │   ├── controllerApi.php  # Base API controller
+│   │   ├── routherApi.php     # API router
+│   │   ├── validationApi.php  # Token validation
+│   │   └── responceApi.php    # API response handler
 │   ├── controller/       # Controllers (Home, Review, User, Admin, Legal)
 │   ├── helper/          # Core classes
 │   │   ├── controller.php    # Base Controller class
@@ -225,6 +241,186 @@ The application uses a custom MVC architecture with the following components:
 - `/admin/tag/create` - Create tag
 - `/admin/tag/edit/{id}` - Edit tag
 - `/admin/feedback` - View feedback
+
+## API Documentation
+
+The application provides a RESTful API for programmatic access to all features. All API endpoints are prefixed with `/api/{controller}/{method}`.
+
+### Base URL
+
+```
+http://localhost:8080/api
+```
+
+### Authentication
+
+Most API endpoints require authentication using Bearer tokens. To authenticate:
+
+1. **Login** via `/api/user/login` with username and password
+2. Receive a **token** in the response
+3. Include the token in subsequent requests:
+   - **Header**: `Authorization: Bearer {token}`
+   - **Query Parameter**: `?token={token}` (alternative)
+
+**Admin endpoints** require an admin role in addition to authentication.
+
+### API Endpoints
+
+#### User API (`/api/user/`)
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `login` | No | Login and receive authentication token |
+| POST | `register` | No | Register a new user account |
+| GET | `user` | Yes | Get current user information |
+| GET | `reviews` | Yes | Get current user's reviews |
+| POST | `changePassword` | Yes | Change user password |
+| POST | `changeEmail` | Yes | Change user email |
+| GET | `getAllUsers` | Admin | Get all users with review counts |
+| POST | `changeUserRole` | Admin | Change a user's role |
+| POST | `deleteUser` | Admin | Delete a user account |
+
+**Example Login Request:**
+```json
+POST /api/user/login
+{
+  "username": "admin",
+  "password": "password"
+}
+```
+
+**Example Response:**
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+#### Review API (`/api/review/`)
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `listCompany` | No | Get all companies with ratings |
+| POST | `getCompany` | No | Get company details with reviews and tags |
+| GET | `getReview` | No | Get all reviews grouped by company |
+| POST | `postReview` | Optional | Create a new review (anonymous if no auth) |
+| GET | `getTags` | No | Get all tags |
+| POST | `searchByCompany` | No | Search companies by query |
+| POST | `searchByTag` | No | Get companies by tag ID |
+| POST | `deleteReview` | Admin | Delete a review |
+| POST | `createCompany` | Admin | Create a new company |
+| POST | `updateCompany` | Admin | Update company information |
+| POST | `deleteCompany` | Admin | Delete a company |
+| POST | `createTag` | Admin | Create a new tag |
+| POST | `updateTag` | Admin | Update tag information |
+| POST | `deleteTag` | Admin | Delete a tag |
+
+**Example: Get Company Details**
+```json
+POST /api/review/getCompany
+{
+  "id": 1
+}
+```
+
+**Example: Create Review**
+```json
+POST /api/review/postReview
+Authorization: Bearer {token}
+{
+  "company_id": 1,
+  "rating": 5,
+  "title": "Great company!",
+  "content": "Excellent service and products."
+}
+```
+
+**Example: Search Companies**
+```json
+POST /api/review/searchByCompany
+{
+  "query": "tech"
+}
+```
+
+**Example: Create Company (Admin)**
+```json
+POST /api/review/createCompany
+Authorization: Bearer {admin_token}
+{
+  "name": "New Company",
+  "description": "Company description",
+  "website": "https://example.com",
+  "slug": "new-company",
+  "tags": [1, 2, 3]
+}
+```
+
+#### Legal API (`/api/legal/`)
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `form` | No | Submit contact/feedback form |
+| GET | `list` | Admin | Get all feedback submissions |
+
+**Example: Submit Feedback**
+```json
+POST /api/legal/form
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "subject": "Question",
+  "message": "I have a question about..."
+}
+```
+
+### Response Format
+
+All API responses are in JSON format:
+
+**Success Response:**
+```json
+{
+  "message": "Operation successful",
+  "data": { ... }
+}
+```
+
+**Error Response:**
+```json
+{
+  "error": "Error message description"
+}
+```
+
+### HTTP Status Codes
+
+- `200` - Success
+- `201` - Created (for POST requests that create resources)
+- `400` - Bad Request (invalid input or validation error)
+- `401` - Unauthorized (authentication required or invalid token)
+- `404` - Not Found (resource doesn't exist)
+- `405` - Method Not Allowed (wrong HTTP method)
+
+### Error Handling
+
+The API uses consistent error responses:
+
+- **400 Bad Request**: Invalid payload or validation errors
+- **401 Unauthorized**: Missing or invalid authentication token, or insufficient permissions
+- **404 Not Found**: Resource not found
+- **405 Method Not Allowed**: HTTP method not allowed for endpoint
+
+**Example Error Response:**
+```json
+{
+  "error": "Company not found"
+}
+```
+
+### CORS Support
+
+The API supports Cross-Origin Resource Sharing (CORS) for frontend integration. CORS headers are automatically set for all API requests.
 
 ## Database Schema
 
