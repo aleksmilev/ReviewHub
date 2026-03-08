@@ -160,8 +160,8 @@ class ReviewApi extends ControllerApi
 
     public function getTags()
     {
-        $this->load->model('CompanyTagModel');
-        $tags = $this->model->CompanyTagModel->getAll([], 'name ASC');
+        $this->load->model('TagModel');
+        $tags = $this->model->TagModel->getAllOrdered();
         ResponceApi::returnData(['tags' => $tags]);
     }
 
