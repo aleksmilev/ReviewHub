@@ -70,11 +70,91 @@ class ActiveComponent extends Component {
         return null
     }
 
+    getPageTitle(path, parsed) {
+        if (!parsed) {
+            return 'ReviewHub'
+        }
+
+        const { directory, view } = parsed
+        const pathLower = path.toLowerCase()
+        const pathParts = path.split('/').filter(Boolean)
+
+        if (pathLower.startsWith('/admin/company/edit')) {
+            return 'Edit Company - ReviewHub'
+        }
+
+        if (pathLower.startsWith('/admin/company/create')) {
+            return 'Create Company - ReviewHub'
+        }
+
+        if (pathLower.startsWith('/admin/tag/edit')) {
+            return 'Edit Tag - ReviewHub'
+        }
+
+        if (pathLower.startsWith('/admin/tag/create')) {
+            return 'Create Tag - ReviewHub'
+        }
+
+        const titleMap = {
+            '/home': 'Home',
+            '/review/company': 'Companies',
+            '/review': 'Reviews',
+            '/review/search': 'Search',
+            '/user/login': 'Login',
+            '/user/register': 'Register',
+            '/user/profile': 'Profile',
+            '/user/reviews': 'My Reviews',
+            '/admin': 'Admin Dashboard',
+            '/admin/reviews': 'Manage Reviews',
+            '/admin/companies': 'Manage Companies',
+            '/admin/tags': 'Manage Tags',
+            '/admin/users': 'Manage Users',
+            '/legal/terms': 'Terms of Service',
+            '/legal/privacy': 'Privacy Policy'
+        }
+
+        if (titleMap[pathLower]) {
+            return `${titleMap[pathLower]} - ReviewHub`
+        }
+
+        if (directory === 'admin' && view === 'index') {
+            return 'Admin Dashboard - ReviewHub'
+        }
+
+        if (directory === 'admin') {
+            const viewName = view.charAt(0).toUpperCase() + view.slice(1)
+            return `${viewName} - Admin - ReviewHub`
+        }
+
+        if (directory === 'user') {
+            const viewName = view.charAt(0).toUpperCase() + view.slice(1)
+            return `${viewName} - ReviewHub`
+        }
+
+        if (directory === 'review') {
+            const viewName = view.charAt(0).toUpperCase() + view.slice(1)
+            return `${viewName} - ReviewHub`
+        }
+
+        if (directory === 'legal') {
+            const viewName = view.charAt(0).toUpperCase() + view.slice(1)
+            return `${viewName} - ReviewHub`
+        }
+
+        return 'ReviewHub'
+    }
+
+    updateDocumentTitle(path, parsed) {
+        const title = this.getPageTitle(path, parsed)
+        document.title = title
+    }
+
     async loadComponent() {
         const path = this.getPath()
         const parsed = this.parsePath(path)
         
         if (!parsed) {
+            this.updateDocumentTitle(path, null)
             this.setState({
                 Component: null,
                 loading: false,
@@ -105,6 +185,8 @@ class ActiveComponent extends Component {
             const module = await import(`../components/pages/${directory}/${view}.jsx`)
             const Component = module.default
 
+            this.updateDocumentTitle(path, parsed)
+
             this.setState({
                 Component,
                 loading: false,
@@ -115,12 +197,14 @@ class ActiveComponent extends Component {
             
             try {
                 const NotFoundComponent = (await import('../components/common/NotFound/index.jsx')).default
+                this.updateDocumentTitle(path, { directory: 'notfound', view: 'index' })
                 this.setState({
                     Component: NotFoundComponent,
                     loading: false,
                     error: null
                 })
             } catch (notFoundError) {
+                this.updateDocumentTitle(path, null)
                 this.setState({
                     Component: null,
                     loading: false,
