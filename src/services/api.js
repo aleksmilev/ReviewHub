@@ -55,6 +55,20 @@ class ApiConfig {
                     'params': []
                 }
             ]
+        },
+        'review': {
+            'listCompany': [
+                {
+                    'method': 'GET',
+                    'params': []
+                }
+            ],
+            'getCompany': [
+                {
+                    'method': 'POST',
+                    'params': ['id']
+                }
+            ]
         }
     }
 
