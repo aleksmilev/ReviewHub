@@ -48,7 +48,6 @@
                                 <td><?php echo date('M j, Y', strtotime($user['created_at'])); ?></td>
                                 <td>
                                     <div class="admin-actions">
-                                        <a href="/user/reviews/<?php echo $user['id']; ?>" class="btn btn-small btn-outline">View Reviews</a>
                                         <?php if ($user['id'] != $_SESSION['user_id']): ?>
                                             <form method="POST" action="/admin/users" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
                                                 <input type="hidden" name="action" value="delete">
