@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { withRouter } from '../../services/withRouter'
 import UserService from '../../services/user'
-import './header.css'
+import '../../style/header.css'
 
 class Header extends Component {
     isAdmin = () => {

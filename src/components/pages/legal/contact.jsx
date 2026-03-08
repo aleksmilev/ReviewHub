@@ -1,8 +1,8 @@
 import { Component } from 'react'
 import Form from '../../common/Form'
 import Popup from '../../common/Popup'
-import './legal.css'
-import './contact.css'
+import '../../../style/legal.css'
+import '../../../style/contact.css'
 
 class Contact extends Component {
     constructor(props) {

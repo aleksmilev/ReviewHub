@@ -1,0 +1,69 @@
+{
+  "legal": {
+    "form": [
+      {
+        "method": "POST",
+        "params": ["name", "email", "subject", "message"]
+      }
+    ],
+    "list": [
+      {
+        "method": "GET",
+        "params": []
+      }
+    ]
+  },
+  "user": {
+    "login": [
+      {
+        "method": "POST",
+        "params": ["username", "password"]
+      }
+    ],
+    "register": [
+      {
+        "method": "POST",
+        "params": ["username", "email", "password"]
+      }
+    ],
+    "user": [
+      {
+        "method": "GET",
+        "params": []
+      }
+    ],
+    "changeEmail": [
+      {
+        "method": "POST",
+        "params": ["email"]
+      }
+    ],
+    "changePassword": [
+      {
+        "method": "POST",
+        "params": ["old_password", "new_password"]
+      }
+    ],
+    "reviews": [
+      {
+        "method": "GET",
+        "params": []
+      }
+    ]
+  },
+  "review": {
+    "listCompany": [
+      {
+        "method": "GET",
+        "params": []
+      }
+    ],
+    "getCompany": [
+      {
+        "method": "POST",
+        "params": ["id"]
+      }
+    ]
+  }
+}
+

@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import Header from './header'
 import Footer from './footer'
-import './layout.css'
+import '../../style/layout.css'
 
 class Layout extends Component {
     render() {

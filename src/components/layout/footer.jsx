@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { Link } from 'react-router-dom'
 import UserService from '../../services/user'
-import './footer.css'
+import '../../style/footer.css'
 
 class Footer extends Component {
     isLoggedIn = () => {

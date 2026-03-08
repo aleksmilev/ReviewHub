@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import UserService from '../../../services/user'
 import ApiRequest from '../../../services/api'
 import { withRouter } from '../../../services/withRouter'
-import '../legal/legal.css'
-import './reviews.css'
+import '../../../style/legal.css'
+import '../../../style/reviews.css'
 
 class Reviews extends Component {
     constructor(props) {

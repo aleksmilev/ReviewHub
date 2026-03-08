@@ -6,7 +6,7 @@ import TokenStorage from '../../../services/token'
 import UserService from '../../../services/user'
 import ApiRequest from '../../../services/api'
 import { withRouter } from '../../../services/withRouter'
-import './auth.css'
+import '../../../style/auth.css'
 
 class Login extends Component {
     constructor(props) {

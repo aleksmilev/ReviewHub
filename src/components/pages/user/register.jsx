@@ -5,7 +5,7 @@ import Popup from '../../common/Popup'
 import TokenStorage from '../../../services/token'
 import UserService from '../../../services/user'
 import { withRouter } from '../../../services/withRouter'
-import './auth.css'
+import '../../../style/auth.css'
 
 class Register extends Component {
     constructor(props) {

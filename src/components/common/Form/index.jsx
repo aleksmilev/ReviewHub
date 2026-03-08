@@ -1,6 +1,6 @@
 import { Component, createRef } from 'react'
 import ApiRequest from '../../../services/api'
-import './Form.css'
+import '../../../style/Form.css'
 
 /**
  * @example

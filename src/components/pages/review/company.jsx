@@ -2,8 +2,8 @@ import { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from '../../../services/withRouter'
 import ApiRequest from '../../../services/api'
-import '../legal/legal.css'
-import './company.css'
+import '../../../style/legal.css'
+import '../../../style/company.css'
 
 class CompanyList extends Component {
     constructor(props) {

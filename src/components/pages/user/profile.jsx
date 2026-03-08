@@ -5,7 +5,7 @@ import Popup from '../../common/Popup'
 import UserService from '../../../services/user'
 import ApiRequest from '../../../services/api'
 import { withRouter } from '../../../services/withRouter'
-import './profile.css'
+import '../../../style/profile.css'
 
 class Profile extends Component {
     constructor(props) {

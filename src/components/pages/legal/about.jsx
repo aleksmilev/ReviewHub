@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { Link } from 'react-router-dom'
-import './legal.css'
+import '../../../style/legal.css'
 
 class About extends Component {
     render() {
