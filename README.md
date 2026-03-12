@@ -261,41 +261,27 @@ The application uses a custom dynamic routing system:
    ```bash
    docker-compose up -d --build
    ```
+   
+   The database will be automatically initialized with the schema and seed data from the `database/` folder. The initialization runs automatically every time you start the containers.
 
-4. **Initialize the database**
-   
-   Access the MySQL container or use Adminer:
-   - Adminer: http://localhost:8081
-   - MySQL: localhost:3306
-   
-   Import the database schema and seed data:
-   ```bash
-   # Option 1: Using Docker exec
-   docker exec -i mysql_db mysql -uroot -proot app_db < database/schematic.sql
-   docker exec -i mysql_db mysql -uroot -proot app_db < database/seed.sql
-   
-   # Option 2: Using Adminer web interface
-   # Navigate to http://localhost:8081 and import the SQL files
-   ```
-
-5. **Install React dependencies**
+4. **Install React dependencies**
    ```bash
    npm install
    ```
 
-6. **Configure API endpoint (React)**
+5. **Configure API endpoint (React)**
    
    Update the API base URL in `src_react/services/api.js` if your backend is not running on `http://localhost:8080`:
    ```javascript
    const baseUrl = 'http://localhost:8080/api'
    ```
 
-7. **Start the React development server**
+6. **Start the React development server**
    ```bash
    npm run dev
    ```
 
-8. **Access the application**
+7. **Access the application**
    
    - PHP Backend (Server-rendered): http://localhost:8080
    - React Frontend (SPA): http://localhost:5173 (or URL shown in terminal)
